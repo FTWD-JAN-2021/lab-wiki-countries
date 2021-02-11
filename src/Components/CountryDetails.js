@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 
 function CountryDetails(props) {
   const [country, setCountry] = useState({});
@@ -15,6 +16,26 @@ function CountryDetails(props) {
     setCountry(found);
   }, [props]);
 
+  console.log(country);
+  const showBorders=() => {
+    return country.borders.map(borderCountry => {
+
+      let border = props.list.find(
+        (element) => element.cca3 == borderCountry
+      )
+    return ( <>
+      <li>
+        <Link
+          to={`/country/${borderCountry}`}
+          className="list-group-item list-group-item-action"
+        >
+        {border.name.common}
+        </Link>
+      </li>
+    </>)
+  })
+}
+
   return (
     <div className="col-7">
       <h1>{country.name?.common}</h1>
@@ -23,7 +44,7 @@ function CountryDetails(props) {
         <tbody>
           <tr>
             <td style={{ width: '30%' }}>Capital</td>
-            <td>{country?.capital[0]}</td>
+            <td>{country?.capital?.[0]}</td>
           </tr>
           <tr>
             <td>Area</td>
@@ -36,30 +57,7 @@ function CountryDetails(props) {
             <td>Borders</td>
             <td>
               <ul>
-                <li>
-                  <a href="/AND">Andorra</a>
-                </li>
-                <li>
-                  <a href="/BEL">Belgium</a>
-                </li>
-                <li>
-                  <a href="/DEU">Germany</a>
-                </li>
-                <li>
-                  <a href="/ITA">Italy</a>
-                </li>
-                <li>
-                  <a href="/LUX">Luxembourg</a>
-                </li>
-                <li>
-                  <a href="/MCO">Monaco</a>
-                </li>
-                <li>
-                  <a href="/ESP">Spain</a>
-                </li>
-                <li>
-                  <a href="/CHE">Switzerland</a>
-                </li>
+                {showBorders()}
               </ul>
             </td>
           </tr>
